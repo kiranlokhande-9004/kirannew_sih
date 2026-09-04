@@ -12,20 +12,20 @@ const navItems = [
 
 export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <aside className="flex h-full w-64 flex-col border-r border-white/10 bg-white/[0.03] backdrop-blur-xl">
+    <aside className="flex h-full w-64 flex-col border-r border-border bg-surface-base shadow-sidebar">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-blue to-brand-violet shadow-lg shadow-brand-blue/30">
+      <div className="flex items-center gap-3 border-b border-border-subtle px-6 py-5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-navy">
           <ShieldCheck className="h-6 w-6 text-white" />
         </div>
         <div>
           <h1 className="font-display text-lg font-bold tracking-tight text-text-primary">PackCheck</h1>
-          <p className="text-[11px] font-medium text-text-muted">PCR Compliance Intelligence</p>
+          <p className="text-[11px] font-medium text-text-secondary">PCR Compliance Intelligence</p>
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="mt-2 flex-1 space-y-1 px-3">
+      <nav className="mt-3 flex-1 space-y-1 px-3">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -35,10 +35,10 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               end={item.to === '/'}
               onClick={onNavigate}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-200 ${
                   isActive
-                    ? 'bg-brand-blue/15 text-brand-blue border border-brand-blue/25'
-                    : 'text-text-muted hover:bg-white/5 hover:text-text-primary border border-transparent'
+                    ? 'bg-brand-blue-light text-brand-navy border border-brand-blue/20'
+                    : 'text-text-secondary hover:bg-surface-subtle hover:text-text-primary border border-transparent'
                 }`
               }
             >
@@ -50,9 +50,9 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-white/10 px-6 py-4">
-        <p className="text-[10px] font-medium text-text-muted">SIH 2026 · Legal Metrology Dept.</p>
-        <p className="text-[10px] text-text-muted/60">Government of Maharashtra</p>
+      <div className="border-t border-border-subtle px-6 py-4">
+        <p className="text-[10px] font-medium text-text-secondary">SIH 2026 · Legal Metrology Dept.</p>
+        <p className="text-[10px] text-text-muted">Government of Maharashtra</p>
       </div>
     </aside>
   );

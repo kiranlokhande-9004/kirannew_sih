@@ -24,67 +24,67 @@ export default function GenerateReport() {
     <div className="animate-fade-in space-y-6">
       <div>
         <h2 className="font-display text-2xl font-bold text-text-primary">Generate Inspection Report — Form 16</h2>
-        <p className="text-sm text-text-muted">Legal Metrology Department, Maharashtra</p>
+        <p className="text-sm text-text-secondary">Legal Metrology Department, Maharashtra</p>
       </div>
 
       <GlassCard hover={false} className="p-6">
         {/* Inspector details */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-text-muted">Inspector Name</label>
+            <label className="mb-1.5 block text-xs font-medium text-text-secondary">Inspector Name</label>
             <input
               type="text"
               placeholder="Enter inspector name"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+              className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-text-muted">Inspector ID</label>
+            <label className="mb-1.5 block text-xs font-medium text-text-secondary">Inspector ID</label>
             <input
               type="text"
               placeholder="e.g. LMD-MH-0421"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+              className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-text-muted">Inspection Date</label>
+            <label className="mb-1.5 block text-xs font-medium text-text-secondary">Inspection Date</label>
             <input
               type="date"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+              className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-text-muted">District</label>
+            <label className="mb-1.5 block text-xs font-medium text-text-secondary">District</label>
             <input
               type="text"
               placeholder="e.g. Mumbai City"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+              className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-text-muted">Market / Area Name</label>
+            <label className="mb-1.5 block text-xs font-medium text-text-secondary">Market / Area Name</label>
             <input
               type="text"
               placeholder="e.g. Dadar Market"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+              className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-muted">Products Inspected</label>
+              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Products Inspected</label>
               <input
                 type="number"
                 placeholder="0"
-                className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+                className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-muted">Violations Found</label>
+              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Violations Found</label>
               <input
                 type="number"
                 value={checked.length}
                 readOnly
-                className="w-full rounded-xl border border-brand-blue/20 bg-brand-blue/[0.06] px-4 py-2.5 text-sm font-semibold text-brand-blue outline-none"
+                className="w-full rounded-lg border border-brand-blue/20 bg-brand-blue-light px-4 py-2.5 text-sm font-semibold text-brand-navy outline-none"
               />
             </div>
           </div>
@@ -98,11 +98,11 @@ export default function GenerateReport() {
               <button
                 key={v}
                 onClick={() => toggle(v)}
-                className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-3 text-left transition-colors hover:bg-white/[0.05]"
+                className="flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-subtle p-3 text-left transition-colors hover:bg-surface-base hover:border-border"
               >
                 <div
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
-                    checked.includes(v) ? 'border-brand-blue bg-brand-blue' : 'border-white/20 bg-transparent'
+                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors ${
+                    checked.includes(v) ? 'border-brand-navy bg-brand-navy' : 'border-border-strong bg-surface-base'
                   }`}
                 >
                   {checked.includes(v) && (
@@ -111,7 +111,7 @@ export default function GenerateReport() {
                     </svg>
                   )}
                 </div>
-                <span className={`text-sm ${checked.includes(v) ? 'text-text-primary' : 'text-text-muted'}`}>{v}</span>
+                <span className={`text-sm ${checked.includes(v) ? 'text-text-primary' : 'text-text-secondary'}`}>{v}</span>
               </button>
             ))}
           </div>
@@ -124,10 +124,10 @@ export default function GenerateReport() {
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="flex aspect-square flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/10 bg-white/[0.02] transition-colors hover:border-brand-blue/30"
+                className="flex aspect-square flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-surface-subtle transition-colors hover:border-brand-blue/30"
               >
-                <Camera className="h-6 w-6 text-text-muted/50" />
-                <span className="mt-2 text-[10px] text-text-muted/50">Photo {i + 1}</span>
+                <Camera className="h-6 w-6 text-text-muted" />
+                <span className="mt-2 text-[10px] text-text-muted">Photo {i + 1}</span>
               </div>
             ))}
           </div>
@@ -135,20 +135,20 @@ export default function GenerateReport() {
 
         {/* CTA buttons */}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <button className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/15 bg-transparent px-4 py-3 text-sm font-semibold text-text-primary transition-all hover:bg-white/5">
+          <button className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border bg-surface-base px-4 py-3 text-sm font-semibold text-text-primary transition-all hover:bg-surface-subtle">
             <Eye className="h-4 w-4" />
             Preview Report
           </button>
-          <button className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand-blue px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-blue/30 transition-all hover:bg-brand-blue/90">
+          <button className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-blue-hover">
             <Download className="h-4 w-4" />
             Download Form 16 PDF
           </button>
         </div>
 
         {/* Note */}
-        <div className="mt-6 flex items-center gap-2 border-t border-white/8 pt-4">
-          <ShieldCheck className="h-4 w-4 text-brand-green" />
-          <p className="text-xs text-text-muted">This report is digitally timestamped and tamper-proof</p>
+        <div className="mt-6 flex items-center gap-2 border-t border-border-subtle pt-4">
+          <ShieldCheck className="h-4 w-4 text-semantic-success" />
+          <p className="text-xs text-text-secondary">This report is digitally timestamped and tamper-proof</p>
         </div>
       </GlassCard>
     </div>

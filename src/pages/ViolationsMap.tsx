@@ -16,9 +16,9 @@ interface MapViolation {
 }
 
 const severityColor: Record<string, string> = {
-  critical: '#ef4444',
-  major: '#f97316',
-  minor: '#eab308',
+  critical: '#B91C1C',
+  major: '#B45309',
+  minor: '#6B7280',
 };
 
 function createPinIcon(color: string, count: number) {
@@ -102,7 +102,7 @@ export default function ViolationsMap() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="font-display text-2xl font-bold text-text-primary">Mumbai Violation Heatmap</h2>
-          <p className="text-sm text-text-muted">Geographic distribution of compliance violations</p>
+          <p className="text-sm text-text-secondary">Geographic distribution of compliance violations</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {filterPills.map((pill, i) => (
@@ -110,14 +110,14 @@ export default function ViolationsMap() {
               key={pill}
               className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
                 i === 0
-                  ? 'bg-brand-blue/20 text-brand-blue border border-brand-blue/30'
-                  : 'bg-white/5 text-text-muted border border-white/10 hover:bg-white/10 hover:text-text-primary'
+                  ? 'bg-brand-blue-light text-brand-navy border border-brand-blue/20'
+                  : 'bg-surface-base text-text-secondary border border-border hover:bg-surface-subtle hover:text-text-primary'
               }`}
             >
               {pill}
             </button>
           ))}
-          <span className="ml-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-text-muted">
+          <span className="ml-2 rounded-full border border-border bg-surface-base px-4 py-1.5 text-xs font-medium text-text-secondary">
             Last 30 days
           </span>
         </div>
@@ -138,11 +138,11 @@ export default function ViolationsMap() {
               style={{ height: '100%', width: '100%' }}
             >
               <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
               />
               {pins.map((pin) => {
-                const color = severityColor[pin.severity] ?? '#eab308';
+                const color = severityColor[pin.severity] ?? '#6B7280';
                 return (
                   <Marker
                     key={pin.id}
@@ -151,11 +151,11 @@ export default function ViolationsMap() {
                   >
                     <Popup>
                       <div style={{ minWidth: '180px' }}>
-                        <p style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px' }}>{pin.location_name}</p>
-                        <p style={{ fontSize: '12px', color: '#8892a4', marginBottom: '6px' }}>
+                        <p style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: '#111827' }}>{pin.location_name}</p>
+                        <p style={{ fontSize: '12px', color: '#6B7280', marginBottom: '6px' }}>
                           {pin.violation_types?.length ?? 0} violation type(s)
                         </p>
-                        <p style={{ fontSize: '12px', color: '#f0f4ff' }}>
+                        <p style={{ fontSize: '12px', color: '#111827' }}>
                           Last: {pin.violation_types?.[0] ?? 'Unknown'}
                         </p>
                       </div>
@@ -170,17 +170,17 @@ export default function ViolationsMap() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <GlassCard glow="red" className="p-5">
-          <p className="font-display text-3xl font-bold text-brand-red">{totalCount}</p>
-          <p className="mt-1 text-sm text-text-muted">Total Violations This Month</p>
+        <GlassCard className="p-5">
+          <p className="font-display text-3xl font-bold text-semantic-error">{totalCount}</p>
+          <p className="mt-1 text-sm text-text-secondary">Total Violations This Month</p>
         </GlassCard>
-        <GlassCard glow="orange" className="p-5">
-          <p className="font-display text-xl font-bold text-brand-orange">{mostAffected}</p>
-          <p className="mt-1 text-sm text-text-muted">Most Affected Area</p>
+        <GlassCard className="p-5">
+          <p className="font-display text-xl font-bold text-semantic-warning">{mostAffected}</p>
+          <p className="mt-1 text-sm text-text-secondary">Most Affected Area</p>
         </GlassCard>
-        <GlassCard glow="blue" className="p-5">
-          <p className="font-display text-xl font-bold text-brand-blue">{mostCommon}</p>
-          <p className="mt-1 text-sm text-text-muted">Most Common Violation</p>
+        <GlassCard className="p-5">
+          <p className="font-display text-xl font-bold text-brand-navy">{mostCommon}</p>
+          <p className="mt-1 text-sm text-text-secondary">Most Common Violation</p>
         </GlassCard>
       </div>
     </div>

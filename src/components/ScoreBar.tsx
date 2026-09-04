@@ -6,11 +6,10 @@ interface ScoreBarProps {
 
 export default function ScoreBar({ score, max = 100, height = 'h-2' }: ScoreBarProps) {
   const pct = Math.min((score / max) * 100, 100);
-  const color = score > 70 ? 'bg-brand-green' : score >= 40 ? 'bg-brand-orange' : 'bg-brand-red';
   return (
-    <div className={`w-full ${height} rounded-full bg-white/8 overflow-hidden`}>
+    <div className={`w-full ${height} rounded-full bg-surface-subtle overflow-hidden border border-border-subtle`}>
       <div
-        className={`${height} rounded-full ${color} transition-all duration-700 ease-out`}
+        className={`${height} rounded-full bg-brand-navy transition-all duration-700 ease-out`}
         style={{ width: `${pct}%` }}
       />
     </div>

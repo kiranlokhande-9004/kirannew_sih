@@ -28,18 +28,11 @@ interface DashboardStats {
   complianceRate: number;
 }
 
-const accentGlow: Record<string, string> = {
-  blue: 'glow-blue',
-  red: 'glow-red',
-  orange: 'glow-orange',
-  green: 'glow-green',
-};
-
 const accentText: Record<string, string> = {
   blue: 'text-brand-blue',
-  red: 'text-brand-red',
-  orange: 'text-brand-orange',
-  green: 'text-brand-green',
+  red: 'text-semantic-error',
+  orange: 'text-semantic-warning',
+  green: 'text-semantic-success',
 };
 
 function timeAgo(dateString: string): string {
@@ -130,19 +123,19 @@ export default function Dashboard() {
     <div className="animate-fade-in space-y-6">
       <div>
         <h2 className="font-display text-2xl font-bold text-text-primary">Dashboard</h2>
-        <p className="text-sm text-text-muted">Real-time compliance monitoring across Mumbai</p>
+        <p className="text-sm text-text-secondary">Real-time compliance monitoring across Mumbai</p>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {statCards.map((s) => (
-          <GlassCard key={s.label} glow={s.accent as 'blue' | 'red' | 'orange' | 'green'} className="p-5">
+          <GlassCard key={s.label} className="p-5">
             <div className="flex items-start justify-between">
               <div>
                 <p className={`font-display text-3xl font-bold ${accentText[s.accent]}`}>{s.value}</p>
-                <p className="mt-1 text-sm text-text-muted">{s.label}</p>
+                <p className="mt-1 text-sm text-text-secondary">{s.label}</p>
               </div>
-              <div className={`flex items-center gap-1 text-xs font-medium ${s.up ? 'text-brand-green' : 'text-brand-red'}`}>
+              <div className={`flex items-center gap-1 text-xs font-medium ${s.up ? 'text-semantic-success' : 'text-semantic-error'}`}>
                 {s.up ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
                 {s.trend}
               </div>
@@ -159,21 +152,21 @@ export default function Dashboard() {
           {loading ? (
             <Spinner label="Loading violations..." />
           ) : recentViolations.length === 0 ? (
-            <p className="py-8 text-center text-sm text-text-muted">No violations recorded yet</p>
+            <p className="py-8 text-center text-sm text-text-secondary">No violations recorded yet</p>
           ) : (
             <div className="space-y-3">
               {recentViolations.map((v) => (
                 <div
                   key={v.id}
-                  className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-3 transition-colors hover:bg-white/[0.06]"
+                  className="flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-subtle p-3 transition-colors hover:bg-surface-base hover:border-border"
                 >
                   <span className="relative flex h-2.5 w-2.5 shrink-0">
-                    <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-brand-red opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-red" />
+                    <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-semantic-error opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-semantic-error" />
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-text-primary">{v.product_name}</p>
-                    <p className="truncate text-xs text-text-muted">{v.location_name}</p>
+                    <p className="truncate text-xs text-text-secondary">{v.location_name}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <Badge color={v.severity === 'critical' ? 'red' : v.severity === 'major' ? 'orange' : 'yellow'}>
@@ -199,9 +192,7 @@ export default function Dashboard() {
                   <div key={b.brand_name}>
                     <div className="mb-1.5 flex items-center justify-between">
                       <span className="text-sm font-medium text-text-primary">{b.brand_name}</span>
-                      <span className={`text-sm font-bold ${b.compliance_score > 70 ? 'text-brand-green' : b.compliance_score >= 40 ? 'text-brand-orange' : 'text-brand-red'}`}>
-                        {b.compliance_score}
-                      </span>
+                      <span className="text-sm font-bold text-text-primary">{b.compliance_score}</span>
                     </div>
                     <ScoreBar score={b.compliance_score} />
                   </div>
@@ -216,11 +207,11 @@ export default function Dashboard() {
               {pcrRules.map((r, i) => (
                 <div key={i} className="flex items-start gap-3">
                   {r.compliant ? (
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-green" />
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-semantic-success" />
                   ) : (
-                    <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-brand-red" />
+                    <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-semantic-error" />
                   )}
-                  <span className={`text-sm ${r.compliant ? 'text-text-primary' : 'text-text-muted'}`}>{r.label}</span>
+                  <span className={`text-sm ${r.compliant ? 'text-text-primary' : 'text-text-secondary'}`}>{r.label}</span>
                 </div>
               ))}
             </div>

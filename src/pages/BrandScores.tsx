@@ -53,26 +53,26 @@ export default function BrandScores() {
   };
 
   const summaryCards = [
-    { label: 'Fully Compliant', value: summary.compliant, color: 'green' as const, glow: 'green' as const },
-    { label: 'Watch List', value: summary.watchlist, color: 'orange' as const, glow: 'orange' as const },
-    { label: 'Priority Inspection', value: summary.priority, color: 'red' as const, glow: 'red' as const },
+    { label: 'Fully Compliant', value: summary.compliant, color: 'green' as const },
+    { label: 'Watch List', value: summary.watchlist, color: 'orange' as const },
+    { label: 'Priority Inspection', value: summary.priority, color: 'red' as const },
   ];
 
   return (
     <div className="animate-fade-in space-y-6">
       <div>
         <h2 className="font-display text-2xl font-bold text-text-primary">Brand Scores</h2>
-        <p className="text-sm text-text-muted">Compliance scoring across registered brands</p>
+        <p className="text-sm text-text-secondary">Compliance scoring across registered brands</p>
       </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {summaryCards.map((s) => (
-          <GlassCard key={s.label} glow={s.glow} className="p-5">
-            <p className={`font-display text-3xl font-bold ${s.color === 'green' ? 'text-brand-green' : s.color === 'orange' ? 'text-brand-orange' : 'text-brand-red'}`}>
+          <GlassCard key={s.label} className="p-5">
+            <p className={`font-display text-3xl font-bold ${s.color === 'green' ? 'text-semantic-success' : s.color === 'orange' ? 'text-semantic-warning' : 'text-semantic-error'}`}>
               {s.value}
             </p>
-            <p className="mt-1 text-sm text-text-muted">{s.label}</p>
+            <p className="mt-1 text-sm text-text-secondary">{s.label}</p>
           </GlassCard>
         ))}
       </div>
@@ -85,7 +85,7 @@ export default function BrandScores() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search brand or product..."
-          className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-2.5 pl-10 pr-4 text-sm text-text-primary placeholder-text-muted/50 outline-none transition-colors focus:border-brand-blue/50 focus:bg-white/[0.06]"
+          className="w-full rounded-lg border border-border bg-surface-subtle py-2.5 pl-10 pr-4 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
         />
       </div>
 
@@ -94,7 +94,7 @@ export default function BrandScores() {
         {loading ? (
           <Spinner label="Loading brand scores..." />
         ) : filtered.length === 0 ? (
-          <div className="py-8 text-center text-sm text-text-muted">
+          <div className="py-8 text-center text-sm text-text-secondary">
             {search ? `No brands found matching "${search}"` : 'No brands found'}
           </div>
         ) : (
@@ -105,20 +105,20 @@ export default function BrandScores() {
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                   {/* Brand info */}
                   <div className="flex items-center gap-3 sm:w-56">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5">
-                      <ShoppingBag className="h-5 w-5 text-text-muted" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-surface-subtle">
+                      <ShoppingBag className="h-5 w-5 text-text-secondary" />
                     </div>
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold text-text-primary">{b.brand_name}</p>
-                      <p className="truncate text-xs text-text-muted">{b.category ?? '—'}</p>
+                      <p className="truncate text-xs text-text-secondary">{b.category ?? '—'}</p>
                     </div>
                   </div>
 
                   {/* Score bar */}
                   <div className="flex-1">
                     <div className="mb-1.5 flex items-center justify-between">
-                      <span className="text-xs text-text-muted">Compliance Score</span>
-                      <span className={`text-sm font-bold ${b.compliance_score > 70 ? 'text-brand-green' : b.compliance_score >= 40 ? 'text-brand-orange' : 'text-brand-red'}`}>
+                      <span className="text-xs text-text-secondary">Compliance Score</span>
+                      <span className="text-sm font-bold text-text-primary">
                         {b.compliance_score}/100
                       </span>
                     </div>
@@ -127,9 +127,9 @@ export default function BrandScores() {
 
                   {/* Violations + status */}
                   <div className="flex items-center gap-3 sm:w-auto">
-                    <span className="text-xs text-text-muted">{b.total_violations} violations</span>
+                    <span className="text-xs text-text-secondary">{b.total_violations} violations</span>
                     <Badge color={badge.color}>{badge.label}</Badge>
-                    <button className="flex items-center gap-1 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:bg-white/5">
+                    <button className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:bg-surface-subtle">
                       View Details
                       <ChevronRight className="h-3 w-3" />
                     </button>

@@ -5,13 +5,13 @@ interface BadgeProps {
 }
 
 const colorMap: Record<string, string> = {
-  blue: 'bg-brand-blue/15 text-brand-blue border-brand-blue/30',
-  red: 'bg-brand-red/15 text-brand-red border-brand-red/30',
-  green: 'bg-brand-green/15 text-brand-green border-brand-green/30',
-  orange: 'bg-brand-orange/15 text-brand-orange border-brand-orange/30',
-  yellow: 'bg-brand-yellow/15 text-brand-yellow border-brand-yellow/30',
-  violet: 'bg-brand-violet/15 text-brand-violet border-brand-violet/30',
-  gray: 'bg-white/8 text-text-muted border-white/15',
+  blue: 'bg-brand-blue-light text-brand-blue border-brand-blue/25',
+  red: 'bg-semantic-error-bg text-semantic-error border-semantic-error/25',
+  green: 'bg-semantic-success-bg text-semantic-success border-semantic-success/25',
+  orange: 'bg-semantic-warning-bg text-semantic-warning border-semantic-warning/25',
+  yellow: 'bg-semantic-warning-bg text-semantic-warning border-semantic-warning/25',
+  violet: 'bg-brand-blue-light text-brand-navy border-brand-navy/25',
+  gray: 'bg-surface-subtle text-text-secondary border-border',
 };
 
 export default function Badge({ children, color = 'gray', className = '' }: BadgeProps) {

@@ -108,7 +108,7 @@ export default function LabelScanner() {
     <div className="animate-fade-in space-y-6">
       <div>
         <h2 className="font-display text-2xl font-bold text-text-primary">Label Scanner</h2>
-        <p className="text-sm text-text-muted">Upload a product label photo for AI-powered compliance analysis</p>
+        <p className="text-sm text-text-secondary">Upload a product label photo for AI-powered compliance analysis</p>
       </div>
 
       <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/heic" onChange={handleFileSelect} className="hidden" />
@@ -118,7 +118,7 @@ export default function LabelScanner() {
         <div className="space-y-6">
           <GlassCard hover={false} className="p-6">
             <h3 className="mb-4 font-display text-lg font-semibold text-text-primary">Scan Product Label</h3>
-            <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/15 bg-white/[0.02] py-12 transition-colors hover:border-brand-blue/40 hover:bg-brand-blue/[0.03]">
+            <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-surface-subtle py-12 transition-colors hover:border-brand-blue/40 hover:bg-brand-blue-light/30">
               {previewUrl && analyzing ? (
                 <div className="flex flex-col items-center gap-4">
                   <img src={previewUrl} alt="Label preview" className="max-h-32 rounded-lg object-contain opacity-60" />
@@ -126,19 +126,19 @@ export default function LabelScanner() {
                 </div>
               ) : (
                 <>
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/5">
-                    <Camera className="h-8 w-8 text-text-muted" />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface-subtle border border-border">
+                    <Camera className="h-8 w-8 text-text-secondary" />
                   </div>
-                  <p className="mt-4 text-sm text-text-muted">Point camera at label or upload photo</p>
+                  <p className="mt-4 text-sm text-text-secondary">Point camera at label or upload photo</p>
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={analyzing}
-                    className="mt-4 flex items-center gap-2 rounded-xl bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-blue/30 transition-all hover:bg-brand-blue/90 hover:shadow-brand-blue/40 disabled:opacity-50"
+                    className="mt-4 flex items-center gap-2 rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-blue-hover disabled:opacity-50"
                   >
                     <Upload className="h-4 w-4" />
                     Upload Image
                   </button>
-                  <p className="mt-3 text-xs text-text-muted/60">Accepted: JPG, PNG, HEIC</p>
+                  <p className="mt-3 text-xs text-text-muted">Accepted: JPG, PNG, HEIC</p>
                 </>
               )}
             </div>
@@ -149,17 +149,17 @@ export default function LabelScanner() {
             {loadingRecent ? (
               <Spinner label="Loading recent scans..." />
             ) : recentScans.length === 0 ? (
-              <p className="py-4 text-center text-sm text-text-muted">No scans yet</p>
+              <p className="py-4 text-center text-sm text-text-secondary">No scans yet</p>
             ) : (
               <div className="space-y-3">
                 {recentScans.map((scan) => (
-                  <div key={scan.id} className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/5">
-                      <ImageIcon className="h-5 w-5 text-text-muted" />
+                  <div key={scan.id} className="flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-subtle p-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-surface-base border border-border">
+                      <ImageIcon className="h-5 w-5 text-text-secondary" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-text-primary">{scan.product_name ?? 'Unknown product'}</p>
-                      <p className="truncate text-xs text-text-muted">{scan.manufacturer ?? 'Unknown manufacturer'}</p>
+                      <p className="truncate text-xs text-text-secondary">{scan.manufacturer ?? 'Unknown manufacturer'}</p>
                     </div>
                     <Badge color={scan.is_compliant ? 'green' : 'red'}>
                       {scan.is_compliant ? 'Compliant' : 'Flagged'}
@@ -182,20 +182,20 @@ export default function LabelScanner() {
               <div className="mb-4 flex items-start justify-between">
                 <div>
                   <h3 className="font-display text-lg font-semibold text-text-primary">Compliance Analysis</h3>
-                  <p className="text-sm text-text-muted">Product: {analysis.product_name}</p>
-                  <p className="text-xs text-text-muted/70">Manufacturer: {analysis.manufacturer}</p>
+                  <p className="text-sm text-text-secondary">Product: {analysis.product_name}</p>
+                  <p className="text-xs text-text-muted">Manufacturer: {analysis.manufacturer}</p>
                 </div>
                 <div
-                  className={`rounded-xl border px-3 py-1.5 text-right ${
+                  className={`rounded-lg border px-3 py-1.5 text-right ${
                     isCompliant
-                      ? 'border-brand-green/30 bg-brand-green/15'
-                      : 'border-brand-red/30 bg-brand-red/15'
+                      ? 'border-semantic-success/25 bg-semantic-success-bg'
+                      : 'border-semantic-error/25 bg-semantic-error-bg'
                   }`}
                 >
-                  <p className={`text-xs font-bold ${isCompliant ? 'text-brand-green' : 'text-brand-red'}`}>
+                  <p className={`text-xs font-bold ${isCompliant ? 'text-semantic-success' : 'text-semantic-error'}`}>
                     {isCompliant ? 'COMPLIANT' : 'NON-COMPLIANT'}
                   </p>
-                  <p className={`text-[10px] ${isCompliant ? 'text-brand-green/80' : 'text-brand-red/80'}`}>
+                  <p className={`text-[10px] ${isCompliant ? 'text-semantic-success' : 'text-semantic-error'}`}>
                     {violationCount} Violation{violationCount !== 1 ? 's' : ''}
                   </p>
                 </div>
@@ -203,7 +203,7 @@ export default function LabelScanner() {
 
               {violationCount > 0 && (
                 <>
-                  <h4 className="mb-3 text-sm font-semibold text-text-muted uppercase tracking-wide">Violations Detected</h4>
+                  <h4 className="mb-3 text-sm font-semibold text-text-secondary uppercase tracking-wide">Violations Detected</h4>
                   <div className="space-y-3">
                     {analysis.violations.map((v: LabelViolation, i: number) => {
                       const cfg = severityConfig[v.severity] ?? severityConfig.minor;
@@ -211,16 +211,16 @@ export default function LabelScanner() {
                       return (
                         <div
                           key={i}
-                          className={`rounded-xl border-l-4 bg-white/[0.03] p-4 ${
-                            v.severity === 'critical' ? 'border-l-brand-red' : v.severity === 'major' ? 'border-l-brand-orange' : 'border-l-brand-yellow'
+                          className={`rounded-lg border-l-4 bg-surface-subtle p-4 ${
+                            v.severity === 'critical' ? 'border-l-semantic-error' : v.severity === 'major' ? 'border-l-semantic-warning' : 'border-l-semantic-warning'
                           }`}
                         >
                           <div className="mb-2 flex items-center gap-2">
-                            <Icon className={`h-4 w-4 ${v.severity === 'critical' ? 'text-brand-red' : v.severity === 'major' ? 'text-brand-orange' : 'text-brand-yellow'}`} />
+                            <Icon className={`h-4 w-4 ${v.severity === 'critical' ? 'text-semantic-error' : 'text-semantic-warning'}`} />
                             <Badge color={cfg.color}>{cfg.label}</Badge>
                           </div>
                           <p className="text-sm font-semibold text-text-primary">{v.type}</p>
-                          <p className="mt-1 text-xs text-text-muted">{v.detail}</p>
+                          <p className="mt-1 text-xs text-text-secondary">{v.detail}</p>
                         </div>
                       );
                     })}
@@ -230,18 +230,18 @@ export default function LabelScanner() {
 
               {violationCount === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <CheckCircle2 className="h-12 w-12 text-brand-green" />
-                  <p className="mt-3 text-sm font-medium text-brand-green">No violations detected</p>
-                  <p className="mt-1 text-xs text-text-muted">This label appears to be PCR 2011 compliant</p>
+                  <CheckCircle2 className="h-12 w-12 text-semantic-success" />
+                  <p className="mt-3 text-sm font-medium text-semantic-success">No violations detected</p>
+                  <p className="mt-1 text-xs text-text-secondary">This label appears to be PCR 2011 compliant</p>
                 </div>
               )}
 
               <div className="mt-6 flex gap-3">
-                <button className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand-blue px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-blue/30 transition-all hover:bg-brand-blue/90">
+                <button className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-blue-hover">
                   <FileText className="h-4 w-4" />
                   Generate Form 16 Report
                 </button>
-                <button className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/15 bg-transparent px-4 py-2.5 text-sm font-semibold text-text-primary transition-all hover:bg-white/5">
+                <button className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border bg-surface-base px-4 py-2.5 text-sm font-semibold text-text-primary transition-all hover:bg-surface-subtle">
                   <CheckCircle2 className="h-4 w-4" />
                   Mark as Compliant
                 </button>
@@ -249,9 +249,9 @@ export default function LabelScanner() {
             </>
           ) : (
             <div className="flex h-full flex-col items-center justify-center py-16 text-center">
-              <Camera className="h-12 w-12 text-text-muted/40" />
-              <p className="mt-4 text-sm text-text-muted">Upload a label to see AI compliance analysis</p>
-              <p className="mt-1 text-xs text-text-muted/60">Results powered by Google Gemini Vision</p>
+              <Camera className="h-12 w-12 text-text-muted" />
+              <p className="mt-4 text-sm text-text-secondary">Upload a label to see AI compliance analysis</p>
+              <p className="mt-1 text-xs text-text-muted">Results powered by Google Gemini Vision</p>
             </div>
           )}
         </GlassCard>

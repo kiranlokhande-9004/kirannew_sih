@@ -1,0 +1,6 @@
+{
+  "name": "PackCheck Compliance System",
+  "description": "AI-powered Legal Metrology and packaged commodity compliance monitoring system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

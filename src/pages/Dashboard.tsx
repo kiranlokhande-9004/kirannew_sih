@@ -28,13 +28,6 @@ interface DashboardStats {
   complianceRate: number;
 }
 
-const accentText: Record<string, string> = {
-  blue: 'text-brand-blue',
-  red: 'text-semantic-error',
-  orange: 'text-semantic-warning',
-  green: 'text-semantic-success',
-};
-
 function timeAgo(dateString: string): string {
   const diff = Date.now() - new Date(dateString).getTime();
   const mins = Math.floor(diff / 60000);
@@ -122,20 +115,20 @@ export default function Dashboard() {
   return (
     <div className="animate-fade-in space-y-6">
       <div>
-        <h2 className="font-display text-2xl font-bold text-text-primary">Dashboard</h2>
-        <p className="text-sm text-text-secondary">Real-time compliance monitoring across Mumbai</p>
+        <h2 className="font-display text-2xl font-bold text-[#111827]">Dashboard</h2>
+        <p className="text-sm font-medium text-[#6B7280]">Real-time compliance monitoring across Mumbai</p>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {statCards.map((s) => (
-          <GlassCard key={s.label} className="p-5">
+          <GlassCard key={s.label} glow={s.accent as 'blue' | 'red' | 'orange' | 'green'} className="p-5">
             <div className="flex items-start justify-between">
               <div>
-                <p className={`font-display text-3xl font-bold ${accentText[s.accent]}`}>{s.value}</p>
-                <p className="mt-1 text-sm text-text-secondary">{s.label}</p>
+                <p className="font-display text-3xl font-bold text-[#111827]">{s.value}</p>
+                <p className="mt-1 text-sm font-medium text-[#1F2937]">{s.label}</p>
               </div>
-              <div className={`flex items-center gap-1 text-xs font-medium ${s.up ? 'text-semantic-success' : 'text-semantic-error'}`}>
+              <div className={`flex items-center gap-1 text-xs font-semibold ${s.up ? 'text-emerald-700' : 'text-red-700'}`}>
                 {s.up ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
                 {s.trend}
               </div>
@@ -148,31 +141,31 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Recent Violations */}
         <GlassCard hover={false} className="p-5">
-          <h3 className="mb-4 font-display text-lg font-semibold text-text-primary">Recent Violations</h3>
+          <h3 className="mb-4 font-display text-lg font-bold text-[#111827]">Recent Violations</h3>
           {loading ? (
             <Spinner label="Loading violations..." />
           ) : recentViolations.length === 0 ? (
-            <p className="py-8 text-center text-sm text-text-secondary">No violations recorded yet</p>
+            <p className="py-8 text-center text-sm font-medium text-[#6B7280]">No violations recorded yet</p>
           ) : (
             <div className="space-y-3">
               {recentViolations.map((v) => (
                 <div
                   key={v.id}
-                  className="flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-subtle p-3 transition-colors hover:bg-surface-base hover:border-border"
+                  className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 transition-colors hover:bg-gray-50"
                 >
                   <span className="relative flex h-2.5 w-2.5 shrink-0">
-                    <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-semantic-error opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-semantic-error" />
+                    <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-red-500 opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-text-primary">{v.product_name}</p>
-                    <p className="truncate text-xs text-text-secondary">{v.location_name}</p>
+                    <p className="truncate text-sm font-bold text-[#111827]">{v.product_name}</p>
+                    <p className="truncate text-xs font-medium text-[#4B5563]">{v.location_name}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <Badge color={v.severity === 'critical' ? 'red' : v.severity === 'major' ? 'orange' : 'yellow'}>
                       {v.violation_types[0] ?? v.severity}
                     </Badge>
-                    <span className="text-[11px] text-text-muted">{timeAgo(v.created_at)}</span>
+                    <span className="text-[11px] font-medium text-[#6B7280]">{timeAgo(v.created_at)}</span>
                   </div>
                 </div>
               ))}
@@ -183,7 +176,7 @@ export default function Dashboard() {
         {/* Quick Summary */}
         <div className="space-y-6">
           <GlassCard hover={false} className="p-5">
-            <h3 className="mb-4 font-display text-lg font-semibold text-text-primary">Top Violating Brands</h3>
+            <h3 className="mb-4 font-display text-lg font-bold text-[#111827]">Top Violating Brands</h3>
             {loading ? (
               <Spinner label="Loading brands..." />
             ) : (
@@ -191,8 +184,10 @@ export default function Dashboard() {
                 {topBrands.map((b) => (
                   <div key={b.brand_name}>
                     <div className="mb-1.5 flex items-center justify-between">
-                      <span className="text-sm font-medium text-text-primary">{b.brand_name}</span>
-                      <span className="text-sm font-bold text-text-primary">{b.compliance_score}</span>
+                      <span className="text-sm font-semibold text-[#111827]">{b.brand_name}</span>
+                      <span className="text-sm font-bold text-[#111827]">
+                        {b.compliance_score}
+                      </span>
                     </div>
                     <ScoreBar score={b.compliance_score} />
                   </div>
@@ -202,16 +197,16 @@ export default function Dashboard() {
           </GlassCard>
 
           <GlassCard hover={false} className="p-5">
-            <h3 className="mb-4 font-display text-lg font-semibold text-text-primary">PCR Rules Quick Reference</h3>
+            <h3 className="mb-4 font-display text-lg font-bold text-[#111827]">PCR Rules Quick Reference</h3>
             <div className="space-y-3">
               {pcrRules.map((r, i) => (
                 <div key={i} className="flex items-start gap-3">
                   {r.compliant ? (
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-semantic-success" />
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
                   ) : (
-                    <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-semantic-error" />
+                    <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-700" />
                   )}
-                  <span className={`text-sm ${r.compliant ? 'text-text-primary' : 'text-text-secondary'}`}>{r.label}</span>
+                  <span className="text-sm font-medium text-[#1F2937]">{r.label}</span>
                 </div>
               ))}
             </div>

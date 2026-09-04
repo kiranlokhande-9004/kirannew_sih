@@ -19,9 +19,9 @@ const iconMap = {
 };
 
 const colorMap = {
-  success: 'text-semantic-success border-semantic-success/25',
-  error: 'text-semantic-error border-semantic-error/25',
-  info: 'text-brand-blue border-brand-blue/25',
+  success: 'text-emerald-800 border-emerald-300 bg-white',
+  error: 'text-red-800 border-red-300 bg-white',
+  info: 'text-blue-800 border-blue-300 bg-white',
 };
 
 export default function Toast({ toast, onClose }: ToastProps) {
@@ -33,10 +33,10 @@ export default function Toast({ toast, onClose }: ToastProps) {
   }, [toast.id, onClose]);
 
   return (
-    <div className={`card flex items-center gap-3 border px-4 py-3 animate-slide-up`}>
-      <Icon className={`h-5 w-5 shrink-0 ${toast.type === 'success' ? 'text-semantic-success' : toast.type === 'error' ? 'text-semantic-error' : 'text-brand-blue'}`} />
-      <p className="flex-1 text-sm text-text-primary">{toast.message}</p>
-      <button onClick={() => onClose(toast.id)} className="text-text-secondary hover:text-text-primary">
+    <div className={`flex items-center gap-3 rounded-xl border ${colorMap[toast.type]} px-4 py-3 shadow-md animate-slide-up`}>
+      <Icon className={`h-5 w-5 shrink-0 ${toast.type === 'success' ? 'text-emerald-700' : toast.type === 'error' ? 'text-red-700' : 'text-blue-700'}`} />
+      <p className="flex-1 text-sm font-medium text-[#111827]">{toast.message}</p>
+      <button onClick={() => onClose(toast.id)} className="text-[#6B7280] hover:text-[#111827]">
         <X className="h-4 w-4" />
       </button>
     </div>

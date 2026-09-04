@@ -8,9 +8,10 @@ interface GlassCardProps {
 }
 
 export default function GlassCard({ children, className = '', glow = 'none', hover = true }: GlassCardProps) {
-  const hoverClass = hover ? 'card-hover' : '';
+  const glowClass = glow !== 'none' ? `glow-${glow}` : '';
+  const hoverClass = hover ? 'glass-hover' : '';
   return (
-    <div className={`card ${hoverClass} ${className}`}>
+    <div className={`glass rounded-2xl ${glowClass} ${hoverClass} ${className}`}>
       {children}
     </div>
   );

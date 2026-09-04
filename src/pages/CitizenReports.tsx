@@ -142,61 +142,61 @@ export default function CitizenReports() {
   return (
     <div className="animate-fade-in space-y-6">
       <div>
-        <h2 className="font-display text-2xl font-bold text-text-primary">Citizen Reports</h2>
-        <p className="text-sm text-text-secondary">Submit and track consumer compliance complaints</p>
+        <h2 className="font-display text-2xl font-bold text-[#111827]">Citizen Reports</h2>
+        <p className="text-sm font-medium text-[#6B7280]">Submit and track consumer compliance complaints</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* LEFT — Form */}
         <GlassCard hover={false} className="p-6">
-          <h3 className="mb-5 font-display text-lg font-semibold text-text-primary">Submit a Complaint</h3>
+          <h3 className="mb-5 font-display text-lg font-bold text-[#111827]">Submit a Complaint</h3>
           <div className="space-y-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Product Name</label>
+              <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Product Name</label>
               <input
                 type="text"
                 value={form.product}
                 onChange={(e) => handleChange('product', e.target.value)}
                 placeholder="e.g. Haldiram Aloo Bhujia 200g"
-                className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-[#111827] placeholder-gray-400 outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Store Name</label>
+              <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Store Name</label>
               <input
                 type="text"
                 value={form.store}
                 onChange={(e) => handleChange('store', e.target.value)}
                 placeholder="e.g. Sharma Kirana Store"
-                className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-[#111827] placeholder-gray-400 outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Location</label>
+              <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Location</label>
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+                <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6B7280]" />
                 <input
                   type="text"
                   value={form.location}
                   onChange={(e) => handleChange('location', e.target.value)}
                   placeholder="e.g. Dadar, Mumbai"
-                  className="w-full rounded-lg border border-border bg-surface-subtle py-2.5 pl-10 pr-4 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                  className="w-full rounded-xl border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-[#111827] placeholder-gray-400 outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Violation Type</label>
+              <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Violation Type</label>
               <select
                 value={form.type}
                 onChange={(e) => handleChange('type', e.target.value)}
-                className="w-full rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-[#111827] outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               >
-                <option value="" className="bg-surface-base">Select violation type...</option>
+                <option value="">Select violation type...</option>
                 {violationTypes.map((t) => (
-                  <option key={t} value={t} className="bg-surface-base">
+                  <option key={t} value={t}>
                     {t}
                   </option>
                 ))}
@@ -205,62 +205,64 @@ export default function CitizenReports() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-text-secondary">MRP on Label</label>
+                <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">MRP on Label</label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-text-muted">₹</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#6B7280]">₹</span>
                   <input
                     type="number"
                     value={form.mrp}
                     onChange={(e) => handleChange('mrp', e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-border bg-surface-subtle py-2.5 pl-8 pr-4 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                    className="w-full rounded-xl border border-gray-300 bg-white py-2.5 pl-8 pr-4 text-sm text-[#111827] placeholder-gray-400 outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                   />
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-text-secondary">Price Charged</label>
+                <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Price Charged</label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-text-muted">₹</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#6B7280]">₹</span>
                   <input
                     type="number"
                     value={form.charged}
                     onChange={(e) => handleChange('charged', e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-border bg-surface-subtle py-2.5 pl-8 pr-4 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                    className="w-full rounded-xl border border-gray-300 bg-white py-2.5 pl-8 pr-4 text-sm text-[#111827] placeholder-gray-400 outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                   />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Description</label>
+              <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Description</label>
               <textarea
                 value={form.description}
                 onChange={(e) => handleChange('description', e.target.value)}
                 rows={3}
                 placeholder="Describe the violation in detail..."
-                className="w-full resize-none rounded-lg border border-border bg-surface-subtle px-4 py-2.5 text-sm text-text-primary placeholder-text-muted outline-none transition-colors focus:border-brand-blue focus:bg-surface-base"
+                className="w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-[#111827] placeholder-gray-400 outline-none transition-colors focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-text-secondary">Upload Photo</label>
+              <label className="mb-1.5 block text-xs font-semibold text-[#1F2937]">Upload Photo</label>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoSelect} className="hidden" />
               <button
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-surface-subtle py-6 transition-colors hover:border-brand-blue/40 hover:bg-brand-blue-light/30"
+                className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50/50 py-6 transition-colors hover:border-blue-500 hover:bg-blue-50/30"
               >
-                <Upload className="h-6 w-6 text-text-secondary" />
-                <p className="mt-2 text-xs text-text-secondary">
+                <Upload className="h-6 w-6 text-[#6B7280]" />
+                <p className="mt-2 text-xs font-medium text-[#4B5563]">
                   {photoFile ? photoFile.name : 'Click or drag to upload evidence'}
                 </p>
               </button>
             </div>
 
             <button
+              type="button"
               onClick={handleSubmit}
               disabled={submitting}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-blue-hover disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-800 disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -280,25 +282,25 @@ export default function CitizenReports() {
         {/* RIGHT — Recent complaints */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <h3 className="font-display text-lg font-semibold text-text-primary">Recent Verified Complaints</h3>
+            <h3 className="font-display text-lg font-bold text-[#111827]">Recent Verified Complaints</h3>
             <Badge color="green">
               <CheckCircle2 className="h-3 w-3" />
-              AI Verified
+              AI Verified ✓
             </Badge>
           </div>
 
           {loadingComplaints ? (
             <Spinner label="Loading complaints..." />
           ) : complaints.length === 0 ? (
-            <p className="py-8 text-center text-sm text-text-secondary">No complaints yet</p>
+            <p className="py-8 text-center text-sm font-medium text-[#6B7280]">No complaints yet</p>
           ) : (
             complaints.map((c) => (
-              <GlassCard key={c.id} className="p-4">
+              <GlassCard key={c.id} className="p-4 border border-gray-200">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-xs font-mono text-text-muted">#{c.complaint_id}</span>
-                    <p className="mt-1 text-sm font-semibold text-text-primary">{c.product_name}</p>
-                    <p className="text-xs text-text-secondary">{c.store_name ?? '—'} · {c.location ?? '—'}</p>
+                    <span className="text-xs font-mono font-semibold text-[#6B7280]">#{c.complaint_id}</span>
+                    <p className="mt-1 text-sm font-bold text-[#111827]">{c.product_name}</p>
+                    <p className="text-xs font-medium text-[#4B5563]">{c.store_name ?? '—'} · {c.location ?? '—'}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1.5">
                     <Badge color={c.violation_type === 'MRP Overcharge' ? 'red' : c.violation_type === 'Expired Product' ? 'orange' : c.violation_type === 'Wrong Unit' ? 'violet' : 'blue'}>
@@ -322,16 +324,16 @@ export default function CitizenReports() {
                     )}
                   </div>
                 </div>
-                <p className="mt-2 text-[11px] text-text-muted">{timeAgo(c.created_at)}</p>
+                <p className="mt-2 text-[11px] font-medium text-[#6B7280]">{timeAgo(c.created_at)}</p>
               </GlassCard>
             ))
           )}
 
-          <div className="flex items-start gap-3 rounded-lg border border-brand-blue/20 bg-brand-blue-light p-4">
-            <Info className="mt-0.5 h-5 w-5 shrink-0 text-brand-navy" />
-            <p className="text-sm text-text-secondary">
+          <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50/70 p-4">
+            <Info className="mt-0.5 h-5 w-5 shrink-0 text-blue-700" />
+            <p className="text-sm font-medium text-[#1F2937]">
               AI validates each complaint before forwarding to inspectors — reducing false reports by{' '}
-              <span className="font-semibold text-brand-navy">78%</span>
+              <span className="font-bold text-blue-800">78%</span>
             </p>
           </div>
         </div>

@@ -1,7 +1,3 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
 export interface LabelViolation {
   type: string;
   severity: 'critical' | 'major' | 'minor';
@@ -26,48 +22,32 @@ function fileToBase64(file: File): Promise<string> {
 }
 
 export async function analyzeLabel(imageFile: File): Promise<LabelAnalysis> {
-  if (!apiKey) {
-    throw new Error('Gemini API key not configured');
-  }
-
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
   const base64Data = await fileToBase64(imageFile);
   const base64 = base64Data.split(',')[1];
 
-  const prompt = `You are a Legal Metrology Inspector AI for India.
-Analyze this product label image and check PCR 2011 compliance.
+  const response = await fetch('/api/analyze-label', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      imageBase64: base64,
+      mimeType: imageFile.type || 'image/jpeg',
+      filename: imageFile.name,
+    }),
+  });
 
-Check for these violations:
-1. MRP present in ₹ format?
-2. Net quantity in grams/ml/kg/l (NOT lbs/oz/fl oz)?
-3. Manufacturer name AND complete address present?
-4. Best Before OR Expiry date present?
-5. Batch/Lot number present?
-6. Country of Origin present?
-
-Respond ONLY in this exact JSON format, no other text:
-{
-  "product_name": "detected product name or Unknown",
-  "manufacturer": "detected manufacturer or Unknown",
-  "is_compliant": true or false,
-  "violations": [
-    {
-      "type": "violation name",
-      "severity": "critical or major or minor",
-      "detail": "specific detail about this violation"
+  if (!response.ok) {
+    let errorMsg = 'Failed to analyze label image';
+    try {
+      const errJson = await response.json();
+      if (errJson.error) errorMsg = errJson.error;
+    } catch {
+      // ignore
     }
-  ],
-  "confidence": 0.0 to 1.0
-}`;
+    throw new Error(errorMsg);
+  }
 
-  const result = await model.generateContent([
-    prompt,
-    { inlineData: { mimeType: imageFile.type, data: base64 } },
-  ]);
-
-  const text = result.response.text();
-  const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean) as LabelAnalysis;
+  const data = await response.json();
+  return data as LabelAnalysis;
 }

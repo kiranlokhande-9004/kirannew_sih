@@ -1,12 +1,12 @@
 import { useState, type ReactNode } from 'react';
 import Sidebar from './Sidebar';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-[#f8fafc]">
       {/* Desktop sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       {/* Mobile sidebar */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/30" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" onClick={() => setMobileOpen(false)} />
           <div className="absolute left-0 top-0 h-full animate-slide-up">
             <Sidebar onNavigate={() => setMobileOpen(false)} />
           </div>
@@ -25,15 +25,15 @@ export default function Layout({ children }: { children: ReactNode }) {
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Mobile top bar */}
-        <div className="flex items-center justify-between border-b border-border bg-surface-base px-4 py-3 lg:hidden">
-          <button onClick={() => setMobileOpen(true)} className="text-text-primary">
+        <div className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 lg:hidden">
+          <button onClick={() => setMobileOpen(true)} className="text-[#111827]">
             <Menu className="h-6 w-6" />
           </button>
-          <span className="font-display text-sm font-bold text-text-primary">PackCheck</span>
+          <span className="font-display text-sm font-bold text-[#111827]">PackCheck</span>
           <div className="w-6" />
         </div>
 
-        <main className="flex-1 overflow-y-auto bg-surface-subtle p-4 lg:p-8">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 lg:p-8">{children}</main>
       </div>
     </div>
   );

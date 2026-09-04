@@ -58,14 +58,14 @@ export default function LabelScanner() {
 
     setAnalyzing(true);
     setAnalysis(null);
-    setPreviewUrl(URL.createObjectURL(file));
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
 
     try {
-      // Step 1: Upload to Supabase Storage
-      const fileName = `scan-${Date.now()}-${file.name}`;
-      const { error: uploadError } = await supabase.storage
-        .from('label-scans')
-        .upload(fileName, file);
+      // Step 1: Upload photo to Supabase Storage
+      const fileName = `${Date.now()}-${file.name}`;
+      const { error: uploadError } = await supabase.storage.from('label-scans').upload(fileName, file);
 
       let photoUrl: string | null = null;
       if (!uploadError) {
@@ -107,8 +107,8 @@ export default function LabelScanner() {
   return (
     <div className="animate-fade-in space-y-6">
       <div>
-        <h2 className="font-display text-2xl font-bold text-text-primary">Label Scanner</h2>
-        <p className="text-sm text-text-secondary">Upload a product label photo for AI-powered compliance analysis</p>
+        <h2 className="font-display text-2xl font-bold text-[#111827]">Label Scanner</h2>
+        <p className="text-sm font-medium text-[#6B7280]">Upload a product label photo for AI-powered compliance analysis</p>
       </div>
 
       <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/heic" onChange={handleFileSelect} className="hidden" />
@@ -117,49 +117,49 @@ export default function LabelScanner() {
         {/* LEFT PANEL */}
         <div className="space-y-6">
           <GlassCard hover={false} className="p-6">
-            <h3 className="mb-4 font-display text-lg font-semibold text-text-primary">Scan Product Label</h3>
-            <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-surface-subtle py-12 transition-colors hover:border-brand-blue/40 hover:bg-brand-blue-light/30">
+            <h3 className="mb-4 font-display text-lg font-bold text-[#111827]">Scan Product Label</h3>
+            <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50/50 py-12 transition-colors hover:border-blue-500 hover:bg-blue-50/30">
               {previewUrl && analyzing ? (
                 <div className="flex flex-col items-center gap-4">
-                  <img src={previewUrl} alt="Label preview" className="max-h-32 rounded-lg object-contain opacity-60" />
+                  <img src={previewUrl} alt="Label preview" className="max-h-32 rounded-lg object-contain" />
                   <Spinner label="AI analyzing label..." />
                 </div>
               ) : (
                 <>
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface-subtle border border-border">
-                    <Camera className="h-8 w-8 text-text-secondary" />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                    <Camera className="h-8 w-8 text-[#4B5563]" />
                   </div>
-                  <p className="mt-4 text-sm text-text-secondary">Point camera at label or upload photo</p>
+                  <p className="mt-4 text-sm font-medium text-[#1F2937]">Point camera at label or upload photo</p>
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={analyzing}
-                    className="mt-4 flex items-center gap-2 rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-blue-hover disabled:opacity-50"
+                    className="mt-4 flex items-center gap-2 rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-800 disabled:opacity-50"
                   >
                     <Upload className="h-4 w-4" />
                     Upload Image
                   </button>
-                  <p className="mt-3 text-xs text-text-muted">Accepted: JPG, PNG, HEIC</p>
+                  <p className="mt-3 text-xs font-medium text-[#6B7280]">Accepted: JPG, PNG, HEIC</p>
                 </>
               )}
             </div>
           </GlassCard>
 
           <GlassCard hover={false} className="p-6">
-            <h3 className="mb-4 font-display text-lg font-semibold text-text-primary">Recently Scanned</h3>
+            <h3 className="mb-4 font-display text-lg font-bold text-[#111827]">Recently Scanned</h3>
             {loadingRecent ? (
               <Spinner label="Loading recent scans..." />
             ) : recentScans.length === 0 ? (
-              <p className="py-4 text-center text-sm text-text-secondary">No scans yet</p>
+              <p className="py-4 text-center text-sm font-medium text-[#6B7280]">No scans yet</p>
             ) : (
               <div className="space-y-3">
                 {recentScans.map((scan) => (
-                  <div key={scan.id} className="flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-subtle p-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-surface-base border border-border">
-                      <ImageIcon className="h-5 w-5 text-text-secondary" />
+                  <div key={scan.id} className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 hover:bg-gray-50">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
+                      <ImageIcon className="h-5 w-5 text-[#4B5563]" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-text-primary">{scan.product_name ?? 'Unknown product'}</p>
-                      <p className="truncate text-xs text-text-secondary">{scan.manufacturer ?? 'Unknown manufacturer'}</p>
+                      <p className="truncate text-sm font-bold text-[#111827]">{scan.product_name ?? 'Unknown product'}</p>
+                      <p className="truncate text-xs font-medium text-[#4B5563]">{scan.manufacturer ?? 'Unknown manufacturer'}</p>
                     </div>
                     <Badge color={scan.is_compliant ? 'green' : 'red'}>
                       {scan.is_compliant ? 'Compliant' : 'Flagged'}
@@ -181,21 +181,21 @@ export default function LabelScanner() {
             <>
               <div className="mb-4 flex items-start justify-between">
                 <div>
-                  <h3 className="font-display text-lg font-semibold text-text-primary">Compliance Analysis</h3>
-                  <p className="text-sm text-text-secondary">Product: {analysis.product_name}</p>
-                  <p className="text-xs text-text-muted">Manufacturer: {analysis.manufacturer}</p>
+                  <h3 className="font-display text-lg font-bold text-[#111827]">Compliance Analysis</h3>
+                  <p className="text-sm font-semibold text-[#1F2937]">Product: <span className="font-bold text-[#111827]">{analysis.product_name}</span></p>
+                  <p className="text-xs font-medium text-[#4B5563]">Manufacturer: {analysis.manufacturer}</p>
                 </div>
                 <div
-                  className={`rounded-lg border px-3 py-1.5 text-right ${
+                  className={`rounded-xl border px-3 py-1.5 text-right ${
                     isCompliant
-                      ? 'border-semantic-success/25 bg-semantic-success-bg'
-                      : 'border-semantic-error/25 bg-semantic-error-bg'
+                      ? 'border-emerald-300 bg-emerald-50 text-emerald-900'
+                      : 'border-red-300 bg-red-50 text-red-900'
                   }`}
                 >
-                  <p className={`text-xs font-bold ${isCompliant ? 'text-semantic-success' : 'text-semantic-error'}`}>
+                  <p className="text-xs font-bold">
                     {isCompliant ? 'COMPLIANT' : 'NON-COMPLIANT'}
                   </p>
-                  <p className={`text-[10px] ${isCompliant ? 'text-semantic-success' : 'text-semantic-error'}`}>
+                  <p className="text-[10px] font-semibold">
                     {violationCount} Violation{violationCount !== 1 ? 's' : ''}
                   </p>
                 </div>
@@ -203,7 +203,7 @@ export default function LabelScanner() {
 
               {violationCount > 0 && (
                 <>
-                  <h4 className="mb-3 text-sm font-semibold text-text-secondary uppercase tracking-wide">Violations Detected</h4>
+                  <h4 className="mb-3 text-sm font-bold text-[#111827] uppercase tracking-wide">Violations Detected</h4>
                   <div className="space-y-3">
                     {analysis.violations.map((v: LabelViolation, i: number) => {
                       const cfg = severityConfig[v.severity] ?? severityConfig.minor;
@@ -211,16 +211,16 @@ export default function LabelScanner() {
                       return (
                         <div
                           key={i}
-                          className={`rounded-lg border-l-4 bg-surface-subtle p-4 ${
-                            v.severity === 'critical' ? 'border-l-semantic-error' : v.severity === 'major' ? 'border-l-semantic-warning' : 'border-l-semantic-warning'
+                          className={`rounded-xl border border-gray-200 border-l-4 bg-white p-4 ${
+                            v.severity === 'critical' ? 'border-l-red-600' : v.severity === 'major' ? 'border-l-orange-500' : 'border-l-amber-500'
                           }`}
                         >
                           <div className="mb-2 flex items-center gap-2">
-                            <Icon className={`h-4 w-4 ${v.severity === 'critical' ? 'text-semantic-error' : 'text-semantic-warning'}`} />
+                            <Icon className={`h-4 w-4 ${v.severity === 'critical' ? 'text-red-700' : v.severity === 'major' ? 'text-orange-700' : 'text-amber-700'}`} />
                             <Badge color={cfg.color}>{cfg.label}</Badge>
                           </div>
-                          <p className="text-sm font-semibold text-text-primary">{v.type}</p>
-                          <p className="mt-1 text-xs text-text-secondary">{v.detail}</p>
+                          <p className="text-sm font-bold text-[#111827]">{v.type}</p>
+                          <p className="mt-1 text-xs font-medium text-[#4B5563]">{v.detail}</p>
                         </div>
                       );
                     })}
@@ -230,18 +230,18 @@ export default function LabelScanner() {
 
               {violationCount === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <CheckCircle2 className="h-12 w-12 text-semantic-success" />
-                  <p className="mt-3 text-sm font-medium text-semantic-success">No violations detected</p>
-                  <p className="mt-1 text-xs text-text-secondary">This label appears to be PCR 2011 compliant</p>
+                  <CheckCircle2 className="h-12 w-12 text-emerald-700" />
+                  <p className="mt-3 text-sm font-bold text-emerald-900">No violations detected</p>
+                  <p className="mt-1 text-xs font-medium text-[#4B5563]">This label appears to be PCR 2011 compliant</p>
                 </div>
               )}
 
               <div className="mt-6 flex gap-3">
-                <button className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-blue-hover">
+                <button className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-800">
                   <FileText className="h-4 w-4" />
                   Generate Form 16 Report
                 </button>
-                <button className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border bg-surface-base px-4 py-2.5 text-sm font-semibold text-text-primary transition-all hover:bg-surface-subtle">
+                <button className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-[#111827] transition-all hover:bg-gray-50">
                   <CheckCircle2 className="h-4 w-4" />
                   Mark as Compliant
                 </button>
@@ -249,9 +249,9 @@ export default function LabelScanner() {
             </>
           ) : (
             <div className="flex h-full flex-col items-center justify-center py-16 text-center">
-              <Camera className="h-12 w-12 text-text-muted" />
-              <p className="mt-4 text-sm text-text-secondary">Upload a label to see AI compliance analysis</p>
-              <p className="mt-1 text-xs text-text-muted">Results powered by Google Gemini Vision</p>
+              <Camera className="h-12 w-12 text-[#6B7280]" />
+              <p className="mt-4 text-sm font-semibold text-[#1F2937]">Upload a label to see AI compliance analysis</p>
+              <p className="mt-1 text-xs font-medium text-[#6B7280]">Results powered by Google Gemini Vision</p>
             </div>
           )}
         </GlassCard>

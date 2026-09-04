@@ -16,9 +16,9 @@ interface MapViolation {
 }
 
 const severityColor: Record<string, string> = {
-  critical: '#B91C1C',
-  major: '#B45309',
-  minor: '#6B7280',
+  critical: '#ef4444',
+  major: '#f97316',
+  minor: '#eab308',
 };
 
 function createPinIcon(color: string, count: number) {
@@ -36,6 +36,7 @@ const filterPills = ['All', 'Food', 'Medicine', 'Cosmetics'];
 
 export default function ViolationsMap() {
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState('All');
   const [pins, setPins] = useState<MapViolation[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [mostAffected, setMostAffected] = useState('—');
@@ -101,30 +102,31 @@ export default function ViolationsMap() {
     <div className="animate-fade-in space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="font-display text-2xl font-bold text-text-primary">Mumbai Violation Heatmap</h2>
-          <p className="text-sm text-text-secondary">Geographic distribution of compliance violations</p>
+          <h2 className="font-display text-2xl font-bold text-[#111827]">Mumbai Violation Heatmap</h2>
+          <p className="text-sm font-medium text-[#4B5563]">Geographic distribution of compliance violations</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {filterPills.map((pill, i) => (
+          {filterPills.map((pill) => (
             <button
               key={pill}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
-                i === 0
-                  ? 'bg-brand-blue-light text-brand-navy border border-brand-blue/20'
-                  : 'bg-surface-base text-text-secondary border border-border hover:bg-surface-subtle hover:text-text-primary'
+              onClick={() => setActiveFilter(pill)}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
+                activeFilter === pill
+                  ? 'bg-blue-50 text-blue-900 border border-blue-300 shadow-xs'
+                  : 'bg-white text-[#1F2937] border border-gray-300 hover:bg-gray-50'
               }`}
             >
               {pill}
             </button>
           ))}
-          <span className="ml-2 rounded-full border border-border bg-surface-base px-4 py-1.5 text-xs font-medium text-text-secondary">
+          <span className="ml-2 rounded-full border border-gray-300 bg-white px-4 py-1.5 text-xs font-medium text-[#4B5563]">
             Last 30 days
           </span>
         </div>
       </div>
 
       {/* Map */}
-      <GlassCard hover={false} className="overflow-hidden p-0">
+      <GlassCard hover={false} className="overflow-hidden p-0 border border-gray-200">
         <div style={{ height: '500px', width: '100%' }}>
           {loading ? (
             <div className="flex h-full items-center justify-center">
@@ -138,11 +140,11 @@ export default function ViolationsMap() {
               style={{ height: '100%', width: '100%' }}
             >
               <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
               />
               {pins.map((pin) => {
-                const color = severityColor[pin.severity] ?? '#6B7280';
+                const color = severityColor[pin.severity] ?? '#eab308';
                 return (
                   <Marker
                     key={pin.id}
@@ -151,11 +153,13 @@ export default function ViolationsMap() {
                   >
                     <Popup>
                       <div style={{ minWidth: '180px' }}>
-                        <p style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: '#111827' }}>{pin.location_name}</p>
-                        <p style={{ fontSize: '12px', color: '#6B7280', marginBottom: '6px' }}>
+                        <p style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: '#111827' }}>
+                          {pin.location_name}
+                        </p>
+                        <p style={{ fontSize: '12px', color: '#374151', marginBottom: '6px' }}>
                           {pin.violation_types?.length ?? 0} violation type(s)
                         </p>
-                        <p style={{ fontSize: '12px', color: '#111827' }}>
+                        <p style={{ fontSize: '12px', color: '#111827', fontWeight: 600 }}>
                           Last: {pin.violation_types?.[0] ?? 'Unknown'}
                         </p>
                       </div>
@@ -170,17 +174,17 @@ export default function ViolationsMap() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <GlassCard className="p-5">
-          <p className="font-display text-3xl font-bold text-semantic-error">{totalCount}</p>
-          <p className="mt-1 text-sm text-text-secondary">Total Violations This Month</p>
+        <GlassCard glow="red" className="p-5">
+          <p className="font-display text-3xl font-bold text-[#111827]">{totalCount}</p>
+          <p className="mt-1 text-sm font-medium text-[#1F2937]">Total Violations This Month</p>
         </GlassCard>
-        <GlassCard className="p-5">
-          <p className="font-display text-xl font-bold text-semantic-warning">{mostAffected}</p>
-          <p className="mt-1 text-sm text-text-secondary">Most Affected Area</p>
+        <GlassCard glow="orange" className="p-5">
+          <p className="font-display text-2xl font-bold text-[#111827]">{mostAffected}</p>
+          <p className="mt-1 text-sm font-medium text-[#1F2937]">Most Affected Area</p>
         </GlassCard>
-        <GlassCard className="p-5">
-          <p className="font-display text-xl font-bold text-brand-navy">{mostCommon}</p>
-          <p className="mt-1 text-sm text-text-secondary">Most Common Violation</p>
+        <GlassCard glow="blue" className="p-5">
+          <p className="font-display text-2xl font-bold text-[#111827]">{mostCommon}</p>
+          <p className="mt-1 text-sm font-medium text-[#1F2937]">Most Common Violation</p>
         </GlassCard>
       </div>
     </div>

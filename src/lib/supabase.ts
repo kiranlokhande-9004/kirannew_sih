@@ -322,17 +322,76 @@ function createMockClient() {
   return mock as any;
 }
 
-function getSupabaseClient() {
-  const isValidUrl =
-    typeof supabaseUrl === 'string' &&
-    supabaseUrl.trim().length > 0 &&
-    (supabaseUrl.startsWith('http://') || supabaseUrl.startsWith('https://'));
+function formatSupabaseUrl(url?: string): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return `https://${trimmed}.supabase.co`;
+}
 
-  if (isValidUrl && supabaseKey) {
+export interface Violation {
+  id: string;
+  product_name: string;
+  brand: string | null;
+  location_name: string;
+  latitude: number;
+  longitude: number;
+  violation_types: string[];
+  severity: 'critical' | 'major' | 'minor' | string;
+  description: string | null;
+  clause_reference: string | null;
+  status: string;
+  created_at: string;
+}
+
+export interface CitizenComplaint {
+  id: string;
+  product_name: string;
+  brand: string | null;
+  complaint_type: string;
+  description: string | null;
+  image_url: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  location_name: string | null;
+  status: string;
+  created_at: string;
+}
+
+export interface Brand {
+  id: string;
+  brand_name: string;
+  total_scans: number;
+  violations: number;
+  compliance_score: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface Scan {
+  id: string;
+  image_url: string | null;
+  product_name: string;
+  brand: string;
+  is_compliant: boolean;
+  compliance_score: number;
+  violations: any;
+  detected_text: any;
+  analysis_result: any;
+  created_at?: string;
+}
+
+function getSupabaseClient() {
+  const formattedUrl = formatSupabaseUrl(supabaseUrl);
+
+  if (formattedUrl && supabaseKey) {
     try {
-      return createClient(supabaseUrl, supabaseKey);
+      return createClient(formattedUrl, supabaseKey);
     } catch (e) {
-      console.warn('Failed to initialize real Supabase client, using mock database:', e);
+      console.warn('Failed to initialize real Supabase client, using fallback:', e);
     }
   }
   return createMockClient();

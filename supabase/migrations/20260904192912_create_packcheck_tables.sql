@@ -165,6 +165,10 @@ CREATE POLICY "anon_delete_scans" ON scans FOR DELETE
 -- ============================================================
 
 INSERT INTO storage.buckets (id, name, public)
+VALUES ('label-images', 'label-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO storage.buckets (id, name, public)
 VALUES ('label-scans', 'label-scans', true)
 ON CONFLICT (id) DO NOTHING;
 
@@ -173,6 +177,21 @@ VALUES ('complaint-photos', 'complaint-photos', true)
 ON CONFLICT (id) DO NOTHING;
 
 -- Storage policies: allow anon + authenticated to upload and read
+DROP POLICY IF EXISTS "anon_upload_label_images" ON storage.objects;
+CREATE POLICY "anon_upload_label_images" ON storage.objects FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (bucket_id = 'label-images');
+
+DROP POLICY IF EXISTS "anon_read_label_images" ON storage.objects;
+CREATE POLICY "anon_read_label_images" ON storage.objects FOR SELECT
+  TO anon, authenticated
+  USING (bucket_id = 'label-images');
+
+DROP POLICY IF EXISTS "anon_update_label_images" ON storage.objects;
+CREATE POLICY "anon_update_label_images" ON storage.objects FOR UPDATE
+  TO anon, authenticated
+  USING (bucket_id = 'label-images');
+
 DROP POLICY IF EXISTS "anon_upload_label_scans" ON storage.objects;
 CREATE POLICY "anon_upload_label_scans" ON storage.objects FOR INSERT
   TO anon, authenticated
